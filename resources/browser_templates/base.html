@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+{# base html sheet for the app #}
+
+{# imports #}
+{# load dajaxice_templatetags #}
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <title>
+    {% block title %}
+       GPS mapper for CANON - camera gps   
+    {% endblock %}
+    </title>
+    <!-- jquery js lib -->
+    <link rel="stylesheet" href="{{STATIC_URL}}js/hosted_libs/jquery-ui-themes-1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script src="{{STATIC_URL}}js/hosted_libs/jquery-1.11.3.min.js"></script> 
+    <script src="{{STATIC_URL}}/js/hosted_libs/jquery-ui-1.11.4/jquery-ui.min.js"></script>
+
+    <!-- bootstrap lib -->
+    <script src="{{STATIC_URL}}js/hosted_libs/bootstrap-3.3.5/dist/js/bootstrap.min.js"></script>
+    <link href="{{STATIC_URL}}js/hosted_libs/bootstrap-3.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- OpenLayers -->
+    <link href="{{STATIC_URL}}js/hosted_libs/v3.10.1/css/ol.css" rel="stylesheet">
+    <script type="text/javascript" src="{{STATIC_URL}}js/hosted_libs/v3.10.1/build/ol.js"></script>
+
+    <script type="text/javascript" src="{{STATIC_URL}}js/hosted_libs/jquery.lorem.js"></script>
+
+    <!-- cookie library -->
+    <script type="text/javascript" src="{{STATIC_URL}}js/hosted_libs/js.cookie.js"></script>
+
+    <!-- own libraries -->
+    <script type="text/javascript" src="{{STATIC_URL}}js/canongpsreader/ui.js"></script>
+    <script type="text/javascript" src="{{STATIC_URL}}js/canongpsreader/maps.js"></script>
+
+    <!-- making STATIC_URL availabe for js -->
+    <script type="text/javascript">
+        var STATIC_URL = "{{ STATIC_URL|escapejs }}";
+    </script>
+
+    <script type="text/javascript">
+        //initialize document
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+        $(document).ready(function(){
+        mastermap = drawMap("map");
+        
+        $('.ipsum').lorem({ type: 'words',amount:'50',ptags:true});
+        ApplyDatePicker();
+        var csrftoken = getCSRFToken("#datepickform");
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+              if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+              xhr.setRequestHeader("X-CSRFToken", csrftoken);
+              }
+            }
+        });
+        });
+    </script>
+
+    {% block scripts %} {% endblock %}
+
+
+
+</head>
+
+    <body>
+    <!-- layout scheme
+    uses twitter bootstrap
+
+    FIXED NAVBAR
+    .............
+    |  content  |
+    .............
+      footer
+    -->
+
+    {% include "nav.html" %}
+    {% block content %} {% endblock %}
+    {% block footer %}  {% endblock %}
+    </body>
+
+</html>

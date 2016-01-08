@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}
+gps
+{% endblock %}
+
+
+{% block content %}
+
+<!-- two column layout -->
+
+
+
+<div class="new-row">
+<div class="page-header">
+    <h1>Example page header <small>Subtext for header</small></h1>
+</div>
+    <article class="span-full-width ipsum">
+    </article>
+
+</div>
+
+<div id="secondrow" class="new-row">
+
+    <div id="choserange" class="panel panel-default"><!-- two-column-layout">-->
+
+        <div class="panel-heading">
+            <h3 class="panel-title">Select plot options</h3>
+        </div>
+        <div class="panel-body">
+            <div>
+                <div id="no-date-error" class="alert alert-danger alert-dismissable" style="display: none;">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+            Oh no! You did not enter a valid date!
+                </div>
+            </div>
+            <div class="col-xs-3">
+                <form role="form" id="datepickform" class="form-inline"> {% csrf_token %}   <!-- action="MakeDatePick();"> -->
+                <div class="form-group">
+                    <div class="input-group">
+                    <label for="from" class="sr-only">Pick dates</label>
+                    <input type="datetime" id="from" name="from" class="form-control" placeholder="10/10/2011" size="10" maxlength="10"/>
+
+                    <label for="to" class="sr-only">to</label>
+                    <input type="datetime" id="to" name="to" class="form-control" placeholder="10/10/2011" size="10" maxlength="10"/>
+                    <button type="button" id="download_plot_button" class="btn btn-default" onclick="GPSPlotHandlerNew();">Show points</button> {% csrf_token %}
+                    </div>
+                </div>
+                </form>
+            </div>
+
+            <div class="col-xs-9">
+                <div id="map" class="little-height">
+                </div>
+            </div>
+        </div>
+
+{% endblock %}
+
+{% block footer %}
+    <div id="footer" class="span2 offset10">
+{{ date}}
+    </div>
+{% endblock %}
+
